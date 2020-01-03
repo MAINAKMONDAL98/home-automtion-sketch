@@ -1,0 +1,32 @@
+#include <SoftwareSerial.h>// import the serial library
+
+SoftwareSerial automation(10, 11); // RX, TX
+int ledpin=7; 
+int BluetoothData;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  automation.begin(9600);
+  automation.println("Bluetooth On please press 1 or 0 blink LED ..");
+  pinMode(ledpin,OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+   if (automation.available()){
+BluetoothData=automation.read();
+Serial.println(BluetoothData-48);
+   if(BluetoothData=='1'){   // if number 1 pressed ....
+   digitalWrite(ledpin,1);
+   automation.println("LED  On D7 ON ! ");
+   Serial.println("LED on");
+   }
+  if (BluetoothData=='0'){// if number 0 pressed ....
+  digitalWrite(ledpin,0);
+   automation.println("LED  On D7 Off ! ");
+   Serial.println("LED off");
+  }
+}
+delay(100);// prepare for next data ...
+}
